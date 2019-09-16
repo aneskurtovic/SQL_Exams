@@ -8,12 +8,12 @@ USE IB160061_Sept
 
 /*
 1. b) Kreiranje tabela.
-Prilikom kreiranja tabela voditi raèuna o odnosima izmeğu tabela.
-I. Kreirati tabelu narudzba sljedeæe strukture:
-	narudzbaID, cjelobrojna varijabla, primarni kljuè
+Prilikom kreiranja tabela voditi raÄuna o odnosima izmeÄ‘u tabela.
+I. Kreirati tabelu narudzba sljedeÄ‡e strukture:
+	narudzbaID, cjelobrojna varijabla, primarni kljuÄ
 	dtm_narudzbe, datumska varijabla za unos samo datuma
 	dtm_isporuke, datumska varijabla za unos samo datuma
-	prevoz, novèana varijabla
+	prevoz, novÄana varijabla
 	klijentID, 5 unicode karaktera
 	klijent_naziv, 40 unicode karaktera
 	prevoznik_naziv, 40 unicode karaktera
@@ -31,10 +31,10 @@ CREATE TABLE Narudzba
 )
 
 /*
-II. Kreirati tabelu proizvod sljedeæe strukture:
-	- proizvodID, cjelobrojna varijabla, primarni kljuè
+II. Kreirati tabelu proizvod sljedeÄ‡e strukture:
+	- proizvodID, cjelobrojna varijabla, primarni kljuÄ
 	- mj_jedinica, 20 unicode karaktera
-	- jed_cijena, novèana varijabla
+	- jed_cijena, novÄana varijabla
 	- kateg_naziv, 15 unicode karaktera
 	- dobavljac_naziv, 40 unicode karaktera
 	- dobavljac_web, tekstualna varijabla
@@ -51,10 +51,10 @@ CREATE TABLE Proizvod
 )
 
 /*
-III. Kreirati tabelu narudzba_proizvod sljedeæe strukture:
+III. Kreirati tabelu narudzba_proizvod sljedeÄ‡e strukture:
 	- narudzbaID, cjelobrojna varijabla, obavezan unos
 	- proizvodID, cjelobrojna varijabla, obavezan unos
-	- uk_cijena, novèana varijabla
+	- uk_cijena, novÄana varijabla
 */
 
 CREATE TABLE Narudzba_Proizvod
@@ -107,7 +107,7 @@ FROM Northwind.dbo.Categories AS C INNER JOIN Northwind.dbo.Products AS P
 c) Iz tabele Order Details baze Northwind importovati podatke prema pravilu:
 	- OrderID -> narudzbaID
 	- ProductID -> proizvodID
-	- uk_cijena <- proizvod jediniène cijene i kolièine
+	- uk_cijena <- proizvod jediniÄne cijene i koliÄine
 uz uslov da nije odobren popust na proizvod.
 */
 
@@ -120,14 +120,14 @@ WHERE OD.Discount=0
 
 /*
 3. 
-Koristeæi tabele proizvod i narudzba_proizvod kreirati pogled view_kolicina koji æe imati strukturu:
+KoristeÄ‡i tabele proizvod i narudzba_proizvod kreirati pogled view_kolicina koji Ä‡e imati strukturu:
 	- proizvodID
 	- kateg_naziv
 	- jed_cijena
 	- uk_cijena
-	- kolicina - koliènik ukupne i jediniène cijene
-U pogledu trebaju biti samo oni zapisi kod kojih kolièina ima smisao (nije moguæe da je na stanju 1,23 proizvoda).
-Obavezno pregledati sadraj pogleda.
+	- kolicina - koliÄnik ukupne i jediniÄne cijene
+U pogledu trebaju biti samo oni zapisi kod kojih koliÄina ima smisao (nije moguÄ‡e da je na stanju 1,23 proizvoda).
+Obavezno pregledati sadrÅ¾aj pogleda.
 */
 
 CREATE VIEW view_kolicina AS
@@ -143,8 +143,8 @@ SELECT * FROM view_kolicina
 
 /*
 4. 
-Koristeæi pogled kreiran u 3. zadatku kreirati proceduru tako da je prilikom izvršavanja moguæe unijeti bilo koji broj parametara 
-(moemo ostaviti bilo koji parametar bez unijete vrijednosti). Proceduru pokrenuti za sljedeæe nazive kategorija:
+KoristeÄ‡i pogled kreiran u 3. zadatku kreirati proceduru tako da je prilikom izvrÅ¡avanja moguÄ‡e unijeti bilo koji broj parametara 
+(moÅ¾emo ostaviti bilo koji parametar bez unijete vrijednosti). Proceduru pokrenuti za sljedeÄ‡e nazive kategorija:
 1. Produce
 2. Beverages
 */
@@ -176,7 +176,7 @@ EXEC proc_kolicina @kateg_naziv = 'Beverages'
 
 /*
 5.
-Koristeæi pogled kreiran u 3. zadatku kreirati proceduru proc_br_kat_naziv koja æe vršiti prebrojavanja po nazivu kategorije. Nakon kreiranja pokrenuti proceduru.
+KoristeÄ‡i pogled kreiran u 3. zadatku kreirati proceduru proc_br_kat_naziv koja Ä‡e vrÅ¡iti prebrojavanja po nazivu kategorije. Nakon kreiranja pokrenuti proceduru.
 */
 
 CREATE PROCEDURE proc_prebrojavanje AS
@@ -192,10 +192,10 @@ EXEC proc_prebrojavanje
 
 /*
 6.
-a) Iz tabele narudzba_proizvod kreirati pogled view_suma sljedeæe strukture:
+a) Iz tabele narudzba_proizvod kreirati pogled view_suma sljedeÄ‡e strukture:
 	- narudzbaID
-	- suma - sume ukupne cijene po ID narudbe
-Obavezno napisati naredbu za pregled sadraja pogleda.*/
+	- suma - sume ukupne cijene po ID narudÅ¾be
+Obavezno napisati naredbu za pregled sadrÅ¾aja pogleda.*/
 
 CREATE VIEW view_suma AS
 SELECT narudzbaID, SUM(uk_cijena) AS suma
@@ -204,12 +204,12 @@ GROUP BY narudzbaID
 
 SELECT * FROM view_suma
 
--- 6.b) Napisati naredbu kojom æe se prikazati srednja vrijednost sume zaokruena na dvije decimale.
+-- 6.b) Napisati naredbu kojom Ä‡e se prikazati srednja vrijednost sume zaokruÅ¾ena na dvije decimale.
 
 SELECT ROUND(AVG(suma),2)
 FROM view_suma
 
--- 6.c) Iz pogleda kreiranog pod a) dati pregled zapisa èija je suma veæa od prosjeène sume. Osim kolona iz pogleda, potrebno je prikazati razliku sume i srednje vrijednosti. Razliku zaokruiti na dvije decimale.
+-- 6.c) Iz pogleda kreiranog pod a) dati pregled zapisa Äija je suma veÄ‡a od prosjeÄne sume. Osim kolona iz pogleda, potrebno je prikazati razliku sume i srednje vrijednosti. Razliku zaokruÅ¾iti na dvije decimale.
 
 SELECT narudzbaID, suma, suma - (SELECT ROUND(AVG(suma),2) FROM view_suma) AS razlika
 FROM view_suma
@@ -220,11 +220,11 @@ WHERE suma > (SELECT avg(suma) FROM view_suma)
 /*
 7.
 a) U tabeli narudzba dodati kolonu evid_br, 30 unicode karaktera 
-b) Kreirati proceduru kojom æe se izvršiti punjenje kolone evid_br na sljedeæi naèin:
-	- ako u datumu isporuke nije unijeta vrijednost, evid_br se dobija generisanjem sluèajnog niza znakova
-	- ako je u datumu isporuke unijeta vrijednost, evid_br se dobija spajanjem datum narudbe i datuma isprouke uz umetanje donje crte izmeğu datuma
+b) Kreirati proceduru kojom Ä‡e se izvrÅ¡iti punjenje kolone evid_br na sljedeÄ‡i naÄin:
+	- ako u datumu isporuke nije unijeta vrijednost, evid_br se dobija generisanjem sluÄajnog niza znakova
+	- ako je u datumu isporuke unijeta vrijednost, evid_br se dobija spajanjem datum narudÅ¾be i datuma isprouke uz umetanje donje crte izmeÄ‘u datuma
 Nakon kreiranja pokrenuti proceduru.
-Obavezno provjeriti sadraj tabele narudba.
+Obavezno provjeriti sadrÅ¾aj tabele narudÅ¾ba.
 */
 
 ALTER TABLE Narudzba
@@ -247,13 +247,13 @@ SELECT * FROM Narudzba
 --------------------------------------------------------------------
 
 /*
-8. Kreirati proceduru kojom æe se dobiti pregled sljedeæih kolona:
+8. Kreirati proceduru kojom Ä‡e se dobiti pregled sljedeÄ‡ih kolona:
 	- narudzbaID,
 	- klijent_naziv,
 	- proizvodID,
 	- kateg_naziv,
 	- dobavljac_naziv
-Uslov je da se dohvate samo oni zapisi u kojima naziv kategorije sadri samo 1 rijeè.
+Uslov je da se dohvate samo oni zapisi u kojima naziv kategorije sadrÅ¾i samo 1 rijeÄ.
 Pokrenuti proceduru.
 */
 
@@ -272,8 +272,8 @@ EXEC proc_kateg_rijec
 
 /*
 9.
-U tabeli proizvod izvršiti update kolone dobavljac_web tako da se iz kolone dobavljac_naziv uzme prva rijeè, 
-a zatim se formira web adresa u formi www.prva_rijec.com. Update izvršiti pomoæu dva upita, vodeæi raèuna o broju rijeèi u nazivu. 
+U tabeli proizvod izvrÅ¡iti update kolone dobavljac_web tako da se iz kolone dobavljac_naziv uzme prva rijeÄ, 
+a zatim se formira web adresa u formi www.prva_rijec.com. Update izvrÅ¡iti pomoÄ‡u dva upita, vodeÄ‡i raÄuna o broju rijeÄi u nazivu. 
 */
 
 -- jedna rijec
@@ -297,7 +297,7 @@ SELECT * FROM Proizvod
 /*
 10.
 a) Kreirati backup baze na default lokaciju.
-b) Kreirati proceduru kojom æe se u jednom izvršavanju obrisati svi pogledi i procedure u bazi. Pokrenuti proceduru.
+b) Kreirati proceduru kojom Ä‡e se u jednom izvrÅ¡avanju obrisati svi pogledi i procedure u bazi. Pokrenuti proceduru.
 */
 
 BACKUP DATABASE IB160061_Sept
